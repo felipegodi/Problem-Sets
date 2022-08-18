@@ -92,15 +92,20 @@ sum, d
 replace totexpr3=. if totexpr3<0
 replace tincm_r=. if tincm_r<0
 
-* Estadística descriptiva
+* 2 ESTADÍSTICA DESCRIPTIVA
+
+* Genero variable de años de edad
 gen years=int(monage/12)
 label variable years "Age in years"
 
-* satlif years female waistc totexpr3
+* Quiero hacer de las siguientes variables satlif years female waistc totexpr3
 * ssc install estout, replace
 estpost summarize satlif years female waistc totexpr3, listwise
 esttab using "$output/Table 1.tex", cells("mean sd min max") ///
 collabels("Mean" "SD" "Min" "Max") nomtitle nonumber replace label
+
+* Miro las correlaciones entre las variables
+pwcorr, star(.01)
 
 * Gráfico que compara distribución de hombres contra mujeres
 twoway (hist hipsiz3 if female==1, start(30) width(5) lcolor(grey%50) fcolor(pink%30)) ///
@@ -121,10 +126,12 @@ graph export "$output/Felicidad-Economia.png", replace
 graph box totexpr3 if totexpr3<50000, over(satlif) title("Satisfaction with Life", position(6) color(black) size(10pt)) yscale(range(0 50000))
 graph export "$output/Felicidad-Gastos.png", replace
 
-* Regresión
+* 3 REGRESIONES
+
 reg satlif female years height hattac marsta1 obeso belief highsc satecc alclmo work0 totexpr3
 outreg2 using "$output/regresion 1.tex", replace label
 
+* Genero una variable de años cuadrática
 gen years2=years*years
 label var years2 "Age in years^2"
 
