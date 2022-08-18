@@ -101,7 +101,7 @@ label variable years "Age in years"
 * Quiero hacer de las siguientes variables satlif years female waistc totexpr3
 * ssc install estout, replace
 estpost summarize satlif years female waistc hipsiz3 totexpr3, listwise
-esttab using "$output/Table 1.tex", cells("mean sd min max") ///
+esttab using "$output/Table 1.tex", cells("mean(fmt(2)) sd(fmt(2)) min max") ///
 collabels("Mean" "SD" "Min" "Max") nomtitle nonumber replace label
 
 * Miro las correlaciones entre las variables
