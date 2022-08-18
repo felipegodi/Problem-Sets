@@ -50,7 +50,8 @@ foreach v of local varlist {
 		replace `v'="4" if `v'=="four"
 		replace `v'="5" if `v'=="five"
 		replace `v'="." if `v'==".b"
-		*drop if `v'==".b"
+		replace `v'="." if `v'==".c"
+		replace `v'="." if `v'==".d"
 }
 
 * Divido el tamaño de cadera y gastos
