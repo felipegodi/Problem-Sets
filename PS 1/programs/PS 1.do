@@ -116,6 +116,9 @@ graph export "$output/hipsize_histogram.png", replace
 
 * Test de medias
 ttest hipsiz3, by(female)
+est clear
+estpost ttest hipsiz3, by(female)
+esttab using "$output/ttest.tex", replace
 
 * Gráficos para pensar resultados
 graph box years, over(satlif) title("Satisfaction with Life", position(6) color(black) size(10pt))
