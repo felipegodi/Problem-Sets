@@ -136,7 +136,7 @@ outreg2 using "$output/regresion 1.tex", replace label
 gen years2=years*years
 label var years2 "Age in years^2"
 
-reg satlif female years years2 height hattac marsta1 obeso belief highsc satecc alclmo work0 totexpr3
+reg satlif female years years2 height hattac marsta1 obeso belief highsc satecc alclmo work0 totexpr3 marsta3 marsta4
 outreg2 using "$output/regresion 2.tex", replace label
 
 * Exporto el do file como pdf

@@ -1,36 +1,40 @@
 		(1)
 VARIABLES	LABELS	Satisfaction with Life
 		
-female	Woman	-0.0290
-		(0.0543)
-years	Age in years	-0.0288***
-		(0.00683)
+female	Woman	-0.0180
+		(0.0548)
+years	Age in years	-0.0277***
+		(0.00695)
 years2	Age in years^2	0.000261***
-		(7.17e-05)
-height	Height	0.00573**
+		(7.28e-05)
+height	Height	0.00570**
 		(0.00284)
-hattac	Ever Had Heart Attack	-0.273**
+hattac	Ever Had Heart Attack	-0.270**
 		(0.112)
-marsta1	Married	0.0501
-		(0.0426)
-obeso	Obese	0.0516
+marsta1	Married	-0.00389
+		(0.0562)
+obeso	Obese	0.0519
 		(0.0522)
-belief	Believer	0.00419
-		(0.0189)
-highsc	Finished High School	0.0217
+belief	Believer	0.00614
+		(0.0190)
+highsc	Finished High School	0.0215
 		(0.0474)
-satecc	Satisfaction with Economic Condition	0.531***
+satecc	Satisfaction with Economic Condition	0.530***
 		(0.0199)
-alclmo	Drinks Alcohol	0.0534
+alclmo	Drinks Alcohol	0.0526
 		(0.0420)
-work0	Working	0.0852*
-		(0.0458)
+work0	Working	0.0887*
+		(0.0460)
 totexpr3	HH Expenditures Real	1.24e-05***
-		(2.28e-06)
-Constant	Constant	0.925*
+		(2.29e-06)
+marsta3	Divorced	-0.0779
+		(0.0843)
+marsta4	Widowed	-0.125
+		(0.0839)
+Constant	Constant	0.920*
 		(0.522)
 		
 Observations		2,310
-R-squared		0.290
+R-squared		0.291
 Standard errors in parentheses		
 *** p<0.01, ** p<0.05, * p<0.1		
