@@ -138,3 +138,6 @@ label var years2 "Age in years^2"
 
 reg satlif female years years2 height hattac marsta1 obeso belief highsc satecc alclmo work0 totexpr3
 outreg2 using "$output/regresion 2.tex", replace label
+
+* Exporto el do file como pdf
+translate "$main/programs/PS 1.do" "$output/PS 1.pdf", translator(txt2pdf) replace
