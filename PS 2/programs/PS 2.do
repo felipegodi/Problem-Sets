@@ -167,3 +167,61 @@ esttab using "$output/Tabla 2.tex", se replace label noobs noabbrev ///
 keep(treat, relax) ///
 cells(b(fmt(3) star) se(par fmt(3))) ///
 stats(N r2, fmt(0 2) labels("N" "R-Squared"))
+
+*******************************************************************************
+* Bonferroni Correction
+*******************************************************************************
+* For first part
+eststo clear
+
+scalar hyp=6
+
+scalar signif=0.05
+
+scalar i=1
+mat p_values=J(6,1,.)
+
+local bayley "b_tot_cog b_tot_lr b_tot_le b_tot_mf"
+foreach y of local bayley{
+local append append 
+if "`y'"=="b_tot_cog" local append replace 
+	cap drop V*
+	reg `y'1_st treat `y'0_st $covs_eva , cluster(cod_dane)
+	eststo: test treat = 0
+	estadd scalar p_value=r(p)
+	estadd scalar corr_p_value=min(1,r(p)*hyp)
+	mat p_values[i,1]=r(p)
+scalar i = i + 1
+} 
+
+local macarthur "mac_words mac_phrases"
+foreach y of local macarthur{
+	cap drop V*
+	reg `y'1_st treat mac_words0_st $covs_ent , cluster(cod_dane)
+	eststo: test treat = 0
+	estadd scalar p_value=r(p)
+	estadd scalar corr_p_value=min(1,r(p)*hyp)
+	mat p_values[i,1]=r(p)
+scalar i = i + 1
+}
+
+preserve
+clear
+svmat p_values
+gen var = _n
+sort p_values1
+
+gen alpha_corr=signif/(hyp+1-_n)
+
+gen significant = (p_values1<alpha_corr)
+
+replace significant = 0 if significant[_n-1]==0
+
+sort var
+save "$output/holmqvals.dta", replace
+restore
+
+esttab using "$output/Tabla 2_1_bonfholm.txt", p se replace label noobs ///
+keep(treat, relax) noabbrev ///
+cells(b(fmt(3) star) se(par fmt(3))) ///
+stats(p_value corr_p_value blank N r2, fmt(2 2 0 2) labels("P-value" "Corrected p-value" " "  "Number of Observations" "R-Squared")) 
