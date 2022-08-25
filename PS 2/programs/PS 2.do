@@ -777,6 +777,8 @@ stats(p_value bon_p_value holm_p_value bky_p_value blank N r2, fmt(3 3 3 3 0 2) 
 
 include "https://raw.githubusercontent.com/steveofconnell/PanelCombine/master/PanelCombine.do"
 
-panelcombine, use(Tabla2_1.tex Tabla2_2.tex Tabla2_3.tex Tabla2_4.tex)  columncount(6) paneltitles("Child's cognitive skills at follow up" "Child's socio-emotional skills at follow up" "Material investments" "Time investments") save(Tabla2.tex)
+cd "$output"
+
+panelcombine, use(Tabla2_2.tex Tabla2_3.tex Tabla2_4.tex)  columncount(6) paneltitles("Child's cognitive skills at follow up" "Child's socio-emotional skills at follow up" "Material investments" "Time investments") save(Tabla2.tex)
 
 panelcombine, use(Tabla2_1_corregida.tex Tabla2_2_corregida.tex Tabla2_3_corregida.tex Tabla2_4_corregida.tex)  columncount(6) paneltitles("Child's cognitive skills at follow up" "Child's socio-emotional skills at follow up" "Material investments" "Time investments") save(Tabla2_corregida.tex)
