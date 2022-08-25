@@ -86,7 +86,7 @@ label var cognitive "Cognitive factor"
 
 eststo: reg cognitive treat b_tot_cog0_st b_tot_lr0_st b_tot_le0_st b_tot_mf0_st mac_words0_st $covs_eva $covs_ent , cluster(cod_dane)
 
-*esttab using "$output/Tabla 2_1.tex", se replace label noobs noabbrev wrap ///
+*esttab using "$output/Tabla2_1.tex", se replace label noobs noabbrev wrap ///
 *keep(treat, relax) style(tex) ///
 *cells(b(fmt(3) star) se(par fmt(3))) ///
 *stats(N r2, fmt(0 2) labels("N" "R-Squared"))
@@ -114,7 +114,7 @@ label var socioe "Socio-emotional factor"
 
 eststo: reg socioe treat bates_difficult0_st bates_unsociable0_st bates_unstoppable0_st $covs_ent , cluster(cod_dane)
 
-*esttab using "$output/Tabla 2_2.tex", se replace label noobs noabbrev ///
+*esttab using "$output/Tabla2_2.tex", se replace label noobs noabbrev ///
 *keep(treat, relax) ///
 *cells(b(fmt(3) star) se(par fmt(3))) ///
 *stats(N r2, fmt(0 2) labels("N" "R-Squared"))
@@ -136,7 +136,7 @@ label var material "Material investment factor"
 
 eststo: reg material treat fci_play_mat_type0_st $covs_ent , cluster(cod_dane)
 
-*esttab using "$output/Tabla 2_3.tex", se replace label noobs noabbrev ///
+*esttab using "$output/Tabla2_3.tex", se replace label noobs noabbrev ///
 *keep(treat, relax) ///
 *cells(b(fmt(3) star) se(par fmt(3))) ///
 *stats(N r2, fmt(0 2) labels("N" "R-Squared"))
@@ -158,7 +158,7 @@ label var time "Time investment factor"
 
 eststo: reg time treat fci_play_act0_st $covs_ent , cluster(cod_dane)
 
-*esttab using "$output/Tabla 2_4.tex", se replace label noobs noabbrev ///
+*esttab using "$output/Tabla2_4.tex", se replace label noobs noabbrev ///
 *keep(treat, relax) ///
 *cells(b(fmt(3) star) se(par fmt(3))) ///
 *stats(N r2, fmt(0 2) labels("N" "R-Squared"))
@@ -328,7 +328,7 @@ foreach y of local macarthur{
 scalar i = i + 1
 }
 
-esttab using "$output/Tabla 2_1_corregida.tex", p se replace label noobs ///
+esttab using "$output/Tabla2_1_corregida.tex", p se replace label noobs ///
 keep(treat, relax) noabbrev ///
 cells(b(fmt(3) star) se(par fmt(3))) ///
 stats(p_value bon_p_value holm_p_value bky_p_value blank N r2, fmt(3 3 3 3 0 2) labels("P-value" "Bonf p-value" "Holm p_value" "BKY p_value"  " "  "Number of Observations" "R-Squared"))
@@ -487,7 +487,7 @@ foreach y of local roth{
 scalar i = i + 1
 } 
 
-esttab using "$output/Tabla 2_2_corregida.tex", p se replace label noobs ///
+esttab using "$output/Tabla2_2_corregida.tex", p se replace label noobs ///
 keep(treat, relax) noabbrev ///
 cells(b(fmt(3) star) se(par fmt(3))) ///
 stats(p_value bon_p_value holm_p_value bky_p_value blank N r2, fmt(3 3 3 3 0 2) labels("P-value" "Bonf p-value" "Holm p_value" "BKY p_value"  " "  "Number of Observations" "R-Squared"))
@@ -626,7 +626,7 @@ scalar i = i + 1
 } 
 
 
-esttab using "$output/Tabla 2_3_corregida.tex", p se replace label noobs ///
+esttab using "$output/Tabla2_3_corregida.tex", p se replace label noobs ///
 keep(treat, relax) noabbrev ///
 cells(b(fmt(3) star) se(par fmt(3))) ///
 stats(p_value bon_p_value holm_p_value bky_p_value blank N r2, fmt(3 3 3 3 0 2) labels("P-value" "Bonf p-value" "Holm p_value" "BKY p_value"  " "  "Number of Observations" "R-Squared"))
@@ -765,7 +765,18 @@ scalar i = i + 1
 } 
 
 
-esttab using "$output/Tabla 2_4_corregida.tex", p se replace label noobs ///
+esttab using "$output/Tabla2_4_corregida.tex", p se replace label noobs ///
 keep(treat, relax) noabbrev ///
 cells(b(fmt(3) star) se(par fmt(3))) ///
 stats(p_value bon_p_value holm_p_value bky_p_value blank N r2, fmt(3 3 3 3 0 2) labels("P-value" "Bonf p-value" "Holm p_value" "BKY p_value"  " "  "Number of Observations" "R-Squared"))
+
+
+*******************************************************************************
+* Tables in panels
+*******************************************************************************
+
+include "https://raw.githubusercontent.com/steveofconnell/PanelCombine/master/PanelCombine.do"
+
+panelcombine, use(Tabla2_1.tex Tabla2_2.tex Tabla2_3.tex Tabla2_4.tex)  columncount(6) paneltitles("Child's cognitive skills at follow up" "Child's socio-emotional skills at follow up" "Material investments" "Time investments") save(Tabla2.tex)
+
+panelcombine, use(Tabla2_1_corregida.tex Tabla2_2_corregida.tex Tabla2_3_corregida.tex Tabla2_4_corregida.tex)  columncount(6) paneltitles("Child's cognitive skills at follow up" "Child's socio-emotional skills at follow up" "Material investments" "Time investments") save(Tabla2_corregida.tex)
