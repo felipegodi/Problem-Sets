@@ -21,7 +21,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Configurar el entorno
 *==============================================================================*
 
-global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 3"
+global main "C:/Users/felip/Documents/UdeSA/Maestría/Aplicada/Problem-Sets/PS 3"
 global input "$main/input"
 global output "$main/output"
 
@@ -129,6 +129,37 @@ est store ols13
 
 esttab ols11 ols13
 suest ols11 ols13
+
+* 1.3
+set seed 69
+gen inteligencia2=int(invnormal(uniform())*50+100)
+
+reg wage inteligencia2 a b
+predict y_hat_4
+
+est store ols14
+
+esttab ols11 ols14
+suest ols11 ols14
+
+* 1.6
+
+reg wage intelligence education a b 
+predict y_hat_5
+
+est store ols15
+
+esttab ols11 ols15
+suest ols11 ols15
+
+* 1.7
+
+
+
+
+
+
+
 
 
 
