@@ -1,11 +1,11 @@
 /*******************************************************************************
-                   Semana 4: Fuentes de sesgo e imprecisión 
+*                   Semana 4: Fuentes de sesgo e imprecisión 
 
-                          Universidad de San Andrés
-                              Economía Aplicada
-							                      2022							           
+*                          Universidad de San Andrés
+*                              Economía Aplicada
+*	    		                      2022							           
 *******************************************************************************/
-      Bronstein         García Vasallo            Lopez             Riottini
+*      Bronstein         García Vassallo            López             Riottini
 /*******************************************************************************
 Este archivo sigue la siguiente estructura:
 
@@ -21,7 +21,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Configurar el entorno
 *==============================================================================*
 
-global main "C:\Users\Milton\Documents\UDESA\Economía Aplicada\Problem-Sets\PS 3"
+global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 3"
 global input "$main/input"
 global output "$main/output"
 
@@ -34,10 +34,10 @@ cd "$main"
 
 clear
 set obs 100
-set seed 1234
+set seed 69
 gen intelligence=int(invnormal(uniform())*20+100)
 
-/* We set the standard error of this variable so the correlation between education and intelligence is high (0.90 approximate).*/
+/* Setear desvío estándar de intelligence tal que la correlación entre education e intelligence sea alta (0.90 aproximadamente)*/
 
 gen education=int(intelligence/10+invnormal(uniform())*1)
 corr education intelligence
@@ -47,12 +47,90 @@ gen b=int(invnormal(uniform())*1+5)
 gen u=int(invnormal(uniform())*1+7)
 gen wage=3*intelligence+a+2*b+u
 
-* Two different regressions
+* Armar dos regresiones para comparar
 reg wage intelligence a b
 predict y_hat_1
 
-* The command estimates est store saves the current (active) estimation results.
+* Guardar la regresión ols11
 est store ols11
+
+* Setear observaciones de nuevo y definir variable de inteigencia
+set obs 1000
+set seed 69
+gen inteligencia=int(invnormal(uniform())*20+100)
+
+*Generar mismo dataset
+
+gen education2=int(inteligencia/10+invnormal(uniform())*1)
+corr education2 inteligencia
+
+gen a2=int(invnormal(uniform())*2+10)
+gen b2=int(invnormal(uniform())*1+5)
+gen u2=int(invnormal(uniform())*1+7)
+gen wage2=3*inteligencia+a2+2*b2+u2
+
+*Segunda regresión
+reg wage2 inteligencia a2 b2
+predict y_hat_2
+
+est store ols12
+
+*Comparar ambas regresiones
+
+esttab ols11 ols12
+suest ols11 ols12
+
+*Exportar regresiones a tex REVISAR
+
+esttab ols11 ols12 using "$output/Ej1_1.tex", se replace noobs noabbrev wrap ///
+keep(treat, relax) style(tex) ///
+cells(b(fmt(3) star) se(par fmt(3))) ///
+stats(N r2, fmt(0 2) labels("N" "R-Squared")) 
+
+*EJ 1.2
+
+clear
+
+* Setear observaciones de nuevo y definir variable de inteigencia
+set obs 100
+set seed 69
+gen intelligence=int(invnormal(uniform())*20+100)
+
+/* Setear desvío estándar de intelligence tal que la correlación entre education e intelligence sea alta (0.90 aproximadamente)*/
+
+gen education=int(intelligence/10+invnormal(uniform())*1)
+corr education intelligence
+
+gen a=int(invnormal(uniform())*2+10)
+gen b=int(invnormal(uniform())*1+5)
+gen u=int(invnormal(uniform())*1+7)
+gen wage=3*intelligence+a+2*b+u
+
+* Armar dos regresiones para comparar
+reg wage intelligence a b
+predict y_hat_1
+
+* Guardar la regresión ols11
+est store ols11
+
+*Cambiar varianza del error
+
+gen u3=int(invnormal(uniform())*5+7)
+gen wage3=3*intelligence+a+2*b+u3
+
+
+*Tercera regresión
+reg wage3 intelligence a b
+predict y_hat_3
+
+est store ols13
+
+*Comparar ambas regresiones
+
+esttab ols11 ols13
+suest ols11 ols13
+
+
 
 * Include education that is not in the Data Generating Process and it is highly correlated with intelligence. Note that coefficients and SE for a and b do not change, but the SE for the coefficient of intelligence changes, and a lot.
 reg wage education intelligence a b
