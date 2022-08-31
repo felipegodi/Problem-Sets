@@ -57,20 +57,20 @@ est store ols11
 * Setear observaciones de nuevo y definir variable de inteigencia
 set obs 1000
 set seed 69
-gen inteligencia=int(invnormal(uniform())*20+100)
+replace intelligence=int(invnormal(uniform())*20+100)
 
 *Generar mismo dataset
 
-gen education2=int(inteligencia/10+invnormal(uniform())*1)
-corr education2 inteligencia
+replace education=int(intelligence/10+invnormal(uniform())*1)
+corr education intelligence
 
-gen a2=int(invnormal(uniform())*2+10)
-gen b2=int(invnormal(uniform())*1+5)
-gen u2=int(invnormal(uniform())*1+7)
-gen wage2=3*inteligencia+a2+2*b2+u2
+replace a=int(invnormal(uniform())*2+10)
+replace b=int(invnormal(uniform())*1+5)
+replace u=int(invnormal(uniform())*1+7)
+replace wage=3*intelligence+a+2*b+u
 
 *Segunda regresión
-reg wage2 inteligencia a2 b2
+reg wage intelligence a b
 predict y_hat_2
 
 est store ols12
@@ -82,10 +82,7 @@ suest ols11 ols12
 
 *Exportar regresiones a tex REVISAR
 
-esttab ols11 ols12 using "$output/Ej1_1.tex", se replace noobs noabbrev wrap ///
-keep(treat, relax) style(tex) ///
-cells(b(fmt(3) star) se(par fmt(3))) ///
-stats(N r2, fmt(0 2) labels("N" "R-Squared")) 
+esttab ols11 ols12 using "$output/EJ1_1.tex", replace se stats(N r2, labels("Observations" "R-squared"))
 
 *EJ 1.2
 
@@ -115,12 +112,12 @@ est store ols11
 
 *Cambiar varianza del error
 
-gen u3=int(invnormal(uniform())*5+7)
-gen wage3=3*intelligence+a+2*b+u3
+replace u=int(invnormal(uniform())*5+7)
+replace wage=3*intelligence+a+2*b+u
 
 
 *Tercera regresión
-reg wage3 intelligence a b
+reg wage intelligence a b
 predict y_hat_3
 
 est store ols13
@@ -130,11 +127,13 @@ est store ols13
 esttab ols11 ols13
 suest ols11 ols13
 
+esttab ols11 ols13 using "$output/EJ1_2.tex", replace se stats(N r2, labels("Observations" "R-squared"))
+
 * 1.3
 set seed 69
-gen inteligencia2=int(invnormal(uniform())*50+100)
+replace intelligence=int(invnormal(uniform())*50+100)
 
-reg wage inteligencia2 a b
+reg wage intelligence a b
 predict y_hat_4
 
 est store ols14
@@ -142,71 +141,55 @@ est store ols14
 esttab ols11 ols14
 suest ols11 ols14
 
+esttab ols11 ols14 using "$output/EJ1_3.tex", replace se stats(N r2, labels("Observations" "R-squared"))
+
 * 1.6
 
 reg wage intelligence education a b 
 predict y_hat_5
 
-est store ols15
-
-esttab ols11 ols15
-suest ols11 ols15
+br wage y_hat_1 y_hat_5
 
 * 1.7
 
+replace intelligence = intelligence+100 in 1 
 
+reg wage intelligence a b 
+predict y_hat_6
 
+est store ols16
 
+esttab ols11 ols16
+suest ols11 ols16
 
+esttab ols11 ols16 using "$output/EJ1_7.tex", replace se stats(N r2, labels("Observations" "R-squared"))
 
+gen c=int(invnormal(uniform())*1+7)
 
+set seed 69
+replace intelligence=int(invnormal(uniform())*20+100)
+replace intelligence=intelligence+c
 
+reg wage intelligence a b
+predict y_hat_7
 
+est store ols17
 
-* Include education that is not in the Data Generating Process and it is highly correlated with intelligence. Note that coefficients and SE for a and b do not change, but the SE for the coefficient of intelligence changes, and a lot.
-reg wage education intelligence a b
-predict y_hat_2
+esttab ols11 ols17
+suest ols11 ols17
 
-* Store the results under the name ols12.
-est store ols12
+esttab ols11 ols17 using "$output/EJ1_7_2.tex", replace se stats(N r2, labels("Observations" "R-squared"))
 
-* They predict the same y_hat
-corr y_hat_1 y_hat_2  
+* 1.8
 
-* Using the commands suest and esttab we can compare the results of the two ols exercise
-esttab ols11 ols12
-suest ols11 ols12
-*suest ols11 ols12, robust
+replace wage = wage+100 in 1 
 
-* Tests
-test [ols11_mean]intelligence=[ols12_mean]intelligence
-test [ols11_mean]a=[ols12_mean]a
-test [ols11_mean]b=[ols12_mean]b
+reg wage intelligence a b
+predict y_hat_8
 
+est store ols18
 
-/* When multicollinearity is high, a small change of an observation can produce a large change on the coefficients. 
-Let's see an example. */
-reg wage education intelligence a b
+esttab ols11 ols18
+suest ols11 ols18
 
-* The command estimates store name saves the current (active) estimation results under the name ols21.
-est store ols21
-
-* We can replace the value of the first observation 
-replace intelligence = intelligence+10 in 1 
-
-* We now estimate the same equation and store the results under the name ols22.
-reg wage education intelligence a b
-est store ols22
-
-* Using the commands suest and esttab we can compare the results of the two ols exercise
-esttab ols21 ols22
-suest ols21 ols22
-
-* Tests
-test [ols21_mean]intelligence=[ols22_mean]intelligence
-test [ols21_mean]a=[ols22_mean]a
-test [ols21_mean]b=[ols22_mean]b
-
-* All coefficients are significantly different between both regressions.
-
-
+esttab ols11 ols18 using "$output/EJ1_8.tex", replace se stats(N r2, labels("Observations" "R-squared"))

@@ -1,0 +1,26 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{2}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+            &\multicolumn{1}{c}{wage}&\multicolumn{1}{c}{wage}\\
+\hline
+intelligence&       2.990\sym{***}&       2.992\sym{***}\\
+            &   (0.00510)         &    (0.0535)         \\
+[1em]
+a           &       1.063\sym{***}&       0.907         \\
+            &    (0.0536)         &     (0.563)         \\
+[1em]
+b           &       2.023\sym{***}&       1.929         \\
+            &     (0.104)         &     (1.092)         \\
+[1em]
+\_cons      &       6.799\sym{***}&      -9.085         \\
+            &     (0.883)         &     (9.514)         \\
+\hline
+Observations&         100         &         100         \\
+R-squared   &       1.000         &       0.970         \\
+\hline\hline
+\multicolumn{3}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+\end{tabular}
+}
