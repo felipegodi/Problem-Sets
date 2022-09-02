@@ -207,12 +207,14 @@ esttab ols11 ols17 using "$output/EJ1_7_2.tex", replace se stats(N r2, labels("O
 
 replace wage = wage+100 in 1 
 
-*Armar regresión
+*Armar regresión ols18 con error no aleatorio en la variable explicada wage
 
 reg wage intelligence a b
 predict y_hat_8
 
 est store ols18
+
+*Comparar ambas regresiones
 
 esttab ols11 ols18
 suest ols11 ols18
