@@ -21,7 +21,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Configurar el entorno
 *==============================================================================*
 
-global main "C:/Users/felip/Documents/UdeSA/Maestría/Aplicada/Problem-Sets/PS 3"
+global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 3"
 global input "$main/input"
 global output "$main/output"
 
@@ -47,14 +47,17 @@ gen b=int(invnormal(uniform())*1+5)
 gen u=int(invnormal(uniform())*1+7)
 gen wage=3*intelligence+a+2*b+u
 
-* Armar dos regresiones para comparar
+* Armar regresión ols11
+
 reg wage intelligence a b
 predict y_hat_1
 
 * Guardar la regresión ols11
+
 est store ols11
 
-* Setear observaciones de nuevo y definir variable de inteigencia
+* Setear observaciones de nuevo y redefinir variable de intelligence
+
 set obs 1000
 set seed 69
 replace intelligence=int(invnormal(uniform())*20+100)
@@ -69,7 +72,8 @@ replace b=int(invnormal(uniform())*1+5)
 replace u=int(invnormal(uniform())*1+7)
 replace wage=3*intelligence+a+2*b+u
 
-*Segunda regresión
+*Armar regresión ols12
+
 reg wage intelligence a b
 predict y_hat_2
 
@@ -80,7 +84,7 @@ est store ols12
 esttab ols11 ols12
 suest ols11 ols12
 
-*Exportar regresiones a tex REVISAR
+*Exportar regresiones a tex
 
 esttab ols11 ols12 using "$output/EJ1_1.tex", replace se stats(N r2, labels("Observations" "R-squared"))
 
@@ -89,6 +93,7 @@ esttab ols11 ols12 using "$output/EJ1_1.tex", replace se stats(N r2, labels("Obs
 clear
 
 * Setear observaciones de nuevo y definir variable de inteigencia
+
 set obs 100
 set seed 69
 gen intelligence=int(invnormal(uniform())*20+100)
@@ -104,6 +109,7 @@ gen u=int(invnormal(uniform())*1+7)
 gen wage=3*intelligence+a+2*b+u
 
 * Armar dos regresiones para comparar
+
 reg wage intelligence a b
 predict y_hat_1
 
@@ -116,7 +122,8 @@ replace u=int(invnormal(uniform())*5+7)
 replace wage=3*intelligence+a+2*b+u
 
 
-*Tercera regresión
+*Armar regresión ols13 (con mayor varianza en el término de error) 
+
 reg wage intelligence a b
 predict y_hat_3
 
@@ -130,13 +137,21 @@ suest ols11 ols13
 esttab ols11 ols13 using "$output/EJ1_2.tex", replace se stats(N r2, labels("Observations" "R-squared"))
 
 * 1.3
+
 set seed 69
+
+* Cambiar la varianza del regresor intelligence
+
 replace intelligence=int(invnormal(uniform())*50+100)
+
+* Correr regresión ols14 (con mayor varianza de intelligence)
 
 reg wage intelligence a b
 predict y_hat_4
 
 est store ols14
+
+*Comparar ambas regresiones
 
 esttab ols11 ols14
 suest ols11 ols14
@@ -152,12 +167,18 @@ br wage y_hat_1 y_hat_5
 
 * 1.7
 
+*Generar un error no aleatorio en el regresor intelligence
+
 replace intelligence = intelligence+100 in 1 
+
+*Armar regresión ols16 con error no aleatorio en regresor intelligence
 
 reg wage intelligence a b 
 predict y_hat_6
 
 est store ols16
+
+*Comparar ambas regresiones
 
 esttab ols11 ols16
 suest ols11 ols16
@@ -182,7 +203,11 @@ esttab ols11 ols17 using "$output/EJ1_7_2.tex", replace se stats(N r2, labels("O
 
 * 1.8
 
+*Generar un error no aleatorio en la variable explicada wage
+
 replace wage = wage+100 in 1 
+
+*Armar regresión
 
 reg wage intelligence a b
 predict y_hat_8
@@ -193,3 +218,7 @@ esttab ols11 ols18
 suest ols11 ols18
 
 esttab ols11 ols18 using "$output/EJ1_8.tex", replace se stats(N r2, labels("Observations" "R-squared"))
+
+*Exportar do-file a pdf
+
+ translate "$main/programs/PS 3.do" "$output/PS 3.pdf", translator(txt2pdf) replace
