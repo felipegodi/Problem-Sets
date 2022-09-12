@@ -41,8 +41,10 @@ use "$input/poppy.dta", clear
 *==============================================================================*
 
 gen chinese_pres= chinos1930hoy>0
+replace chinese_pres=. if chinos1930hoy==.
 
 * 2) Estadística descriptiva
+*==============================================================================*
 
 * Primero pongo bien las labels
 
@@ -57,6 +59,50 @@ label variable Impuestos_pc_mun "Per capita tax revenue"
 label variable chinos1930hoy "Chinese population"
 label variable pob1930cabec "Population in 1930"
 
+* Ahora hago el summ de las variables de interes
+
 estpost summarize cartel2010 cartel2005 chinese_pres chinos1930hoy IM_2015 Impuestos_pc_mun dalemanes suitability distancia_km distkmDF mindistcosta POB_TOT_2015 superficie_km TempMed_Anual PrecipAnual_med pob1930cabec, listwise
 esttab using "$output/Table 1.tex", cells("mean(fmt(2)) sd(fmt(2)) min max") ///
 collabels("Mean" "SD" "Min" "Max") nomtitle nonumber replace label
+
+* 3) Replicación de regresiones
+*==============================================================================*
+
+reg cartel2010 chinese_pres, cluster(id_estado)
+
+reg cartel2010 chinese_pres dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta, cluster(id_estado)
+
+reg cartel2005 chinese_pres, cluster(id_estado)
+
+reg cartel2005 chinese_pres dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta, cluster(id_estado)
+
+* 4) Replicación de Tabla 7
+*==============================================================================*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
