@@ -1,5 +1,5 @@
 /*******************************************************************************
-*                   Semana 4: Fuentes de sesgo e imprecisión 
+*                   Semana 5: Variables Instrumentales 
 
 *                          Universidad de San Andrés
 *                              Economía Aplicada
