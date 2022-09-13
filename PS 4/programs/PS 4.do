@@ -134,26 +134,27 @@ est store iv14
 * 5) Testear exogenenidad del instrumento
 *==============================================================================*
 
+ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+predict resid, residual
 
+reg resid dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado chinese_pres, cluster(id_estado)
 
+ereturn list
+display chi2tail(1,e(N)*e(r2))
 
+* 6) Test de sobreidentificación
+*==============================================================================*
 
+ivregress 2sls IM_2015 (cartel2010=chinese_pres dalemanes) suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+predict resid1, residual
 
+reg resid1 suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado chinese_pres dalemanes, cluster(id_estado)
 
+test chinese_pres=dalemanes=0
 
+return list
+ereturn list
 
+display chi2tail(1,2*r(F))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ivreg2 IM_2015 (cartel2010=chinese_pres dalemanes) suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
