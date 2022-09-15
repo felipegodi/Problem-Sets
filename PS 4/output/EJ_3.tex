@@ -1,0 +1,49 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+            &\multicolumn{1}{c}{cartel2010}&\multicolumn{1}{c}{cartel2010}&\multicolumn{1}{c}{cartel2005}&\multicolumn{1}{c}{cartel2005}\\
+\hline
+chinese\_pres&       0.322\sym{***}&      0.0989         &       0.199\sym{***}&      0.0623\sym{*}  \\
+            &      (4.01)         &      (1.92)         &      (5.27)         &      (2.28)         \\
+[1em]
+dalemanes   &                     &       0.188\sym{***}&                     &      0.0686\sym{*}  \\
+            &                     &      (4.21)         &                     &      (2.16)         \\
+[1em]
+suitability &                     &      0.0436         &                     &      0.0301         \\
+            &                     &      (0.78)         &                     &      (1.25)         \\
+[1em]
+TempMed\_Anual&                     &      0.0120         &                     &     0.00467         \\
+            &                     &      (1.68)         &                     &      (1.66)         \\
+[1em]
+PrecipAnual\_med&                     &   -0.000499         &                     &   -0.000166         \\
+            &                     &     (-1.33)         &                     &     (-1.40)         \\
+[1em]
+superficie\_km&                     &   0.0000389\sym{*}  &                     &   0.0000140\sym{*}  \\
+            &                     &      (2.73)         &                     &      (2.70)         \\
+[1em]
+pob1930cabec&                     &  0.00000757\sym{*}  &                     &  0.00000288         \\
+            &                     &      (2.64)         &                     &      (1.32)         \\
+[1em]
+distancia\_km&                     &   -0.000450\sym{*}  &                     &   -0.000147\sym{*}  \\
+            &                     &     (-2.54)         &                     &     (-2.55)         \\
+[1em]
+distkmDF    &                     &   -0.000267         &                     & -0.00000377         \\
+            &                     &     (-2.01)         &                     &     (-0.06)         \\
+[1em]
+mindistcosta&                     &   -0.000196         &                     &  -0.0000152         \\
+            &                     &     (-1.08)         &                     &     (-0.18)         \\
+[1em]
+capestado   &                     &       0.133         &                     &       0.500\sym{***}\\
+            &                     &      (1.32)         &                     &      (5.57)         \\
+[1em]
+\_cons      &       0.240\sym{**} &       0.647\sym{*}  &      0.0610\sym{**} &      0.0902         \\
+            &      (3.52)         &      (2.64)         &      (3.13)         &      (0.86)         \\
+\hline
+\(N\)       &        2439         &        2161         &        2440         &        2162         \\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize \textit{t} statistics in parentheses}\\
+\multicolumn{5}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+\end{tabular}
+}

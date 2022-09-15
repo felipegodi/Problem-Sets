@@ -29,7 +29,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Configurar el entorno
 *==============================================================================*
 
-global main "C:/Users/felip/Documents/UdeSA/Maestría/Aplicada/Problem-Sets/PS 4"
+global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 4"
 global input "$main/input"
 global output "$main/output"
 
@@ -84,6 +84,9 @@ est store ols3
 reg cartel2005 chinese_pres dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
 est store ols4
 
+* Exporto tabla a Latex
+esttab ols1 ols2 ols3 ols4 using "$output/EJ_3.tex", replace
+
 * 4) Replicación de Tabla 7
 *==============================================================================*
 
@@ -101,6 +104,9 @@ est store iv4
 
 ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado growthperc, cluster(id_estado)
 est store iv5
+
+*Exporto tabla a Latex
+esttab iv1 iv2 iv3 iv4 iv5 using "$output/EJ_4.a.tex", replace
 
 * Replicación Tabla 8
 
@@ -130,6 +136,9 @@ est store iv13
 
 ivregress 2sls PO2SM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
 est store iv14
+
+*Exporto tabla a Latex
+esttab iv6 iv7 iv8 iv9 iv10 iv11 iv12 iv13 iv14 using "$output/EJ_4.b.tex", replace
 
 * 5) Testear exogenenidad del instrumento
 *==============================================================================*
