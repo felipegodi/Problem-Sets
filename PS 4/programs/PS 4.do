@@ -85,28 +85,53 @@ reg cartel2005 chinese_pres dalemanes suitability TempMed_Anual PrecipAnual_med 
 est store ols4
 
 * Exporto tabla a Latex
-esttab ols1 ols2 ols3 ols4 using "$output/EJ_3.tex", replace label
+esttab ols1 ols2 ols3 ols4 using "$output/EJ_3.tex", replace label keep(chinese_pres)
 
 * 4) Replicación de Tabla 7
 *==============================================================================*
 
 ivregress 2sls IM_2015 (cartel2010=chinese_pres) i.id_estado, cluster(id_estado)
 est store iv1
+qui testparm*
+estadd scalar p_value = r(p)
+estat firststage
+mat fstat = r(singleresults)
+estadd scalar fs = fstat[1,4]
 
 ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv2
+qui testparm*
+estadd scalar p_value = r(p)
+estat firststage
+mat fstat = r(singleresults)
+estadd scalar fs = fstat[1,4]
 
 ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado if distancia_km<100, cluster(id_estado)
 est store iv3
+qui testparm*
+estadd scalar p_value = r(p)
+estat firststage
+mat fstat = r(singleresults)
+estadd scalar fs = fstat[1,4]
 
 ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado if estado!="Sinaloa", cluster(id_estado) 
 est store iv4
+qui testparm*
+estadd scalar p_value = r(p)
+estat firststage
+mat fstat = r(singleresults)
+estadd scalar fs = fstat[1,4]
 
 ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado growthperc i.id_estado, cluster(id_estado)
 est store iv5
+qui testparm*
+estadd scalar p_value = r(p)
+estat firststage
+mat fstat = r(singleresults)
+estadd scalar fs = fstat[1,4]
 
 *Exporto tabla a Latex
-esttab iv1 iv2 iv3 iv4 iv5 using "$output/EJ_4.a.tex", replace label
+esttab iv1 iv2 iv3 iv4 iv5 using "$output/EJ_4.a.tex", replace label keep(cartel2010) scalar(F p_value) stats(fs p_value N, fmt(2 3 0))
 
 * Replicación Tabla 8
 
@@ -138,7 +163,7 @@ ivregress 2sls PO2SM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMe
 est store iv14
 
 *Exporto tabla a Latex
-esttab iv6 iv7 iv8 iv9 iv10 iv11 iv12 iv13 iv14 using "$output/EJ_4.b.tex", replace label
+esttab iv6 iv7 iv8 iv9 iv10 iv11 iv12 iv13 iv14 using "$output/EJ_4.b.tex", replace label keep(cartel2010)
 
 * 5) Testear exogenenidad del instrumento (test de Hausman)
 *==============================================================================*
