@@ -72,16 +72,16 @@ drop if estado=="Distrito Federal"
 * 3) Replicación de regresiones
 *==============================================================================*
 
-reg cartel2010 chinese_pres, cluster(id_estado)
+reg cartel2010 chinese_pres i.id_estado, cluster(id_estado)
 est store ols1
 
-reg cartel2010 chinese_pres dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+reg cartel2010 chinese_pres dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store ols2
 
-reg cartel2005 chinese_pres, cluster(id_estado)
+reg cartel2005 chinese_pres i.id_estado, cluster(id_estado)
 est store ols3
 
-reg cartel2005 chinese_pres dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+reg cartel2005 chinese_pres dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store ols4
 
 * Exporto tabla a Latex
@@ -90,19 +90,19 @@ esttab ols1 ols2 ols3 ols4 using "$output/EJ_3.tex", replace
 * 4) Replicación de Tabla 7
 *==============================================================================*
 
-ivregress 2sls IM_2015 (cartel2010=chinese_pres), cluster(id_estado)
+ivregress 2sls IM_2015 (cartel2010=chinese_pres) i.id_estado, cluster(id_estado)
 est store iv1
 
-ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv2
 
-ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado if distancia_km<100, cluster(id_estado)
+ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado if distancia_km<100, cluster(id_estado)
 est store iv3
 
-ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado if estado!="Sinaloa", cluster(id_estado) 
+ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado if estado!="Sinaloa", cluster(id_estado) 
 est store iv4
 
-ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado growthperc, cluster(id_estado)
+ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado growthperc i.id_estado, cluster(id_estado)
 est store iv5
 
 *Exporto tabla a Latex
@@ -110,54 +110,58 @@ esttab iv1 iv2 iv3 iv4 iv5 using "$output/EJ_4.a.tex", replace
 
 * Replicación Tabla 8
 
-ivregress 2sls ANALF_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls ANALF_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv6
 
-ivregress 2sls SPRIM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls SPRIM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv7
 
-ivregress 2sls OVSDE_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls OVSDE_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv8
 
-ivregress 2sls OVSEE_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls OVSEE_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv9
 
-ivregress 2sls OVSAE_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls OVSAE_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv10
 
-ivregress 2sls VHAC_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls VHAC_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv11
 
-ivregress 2sls OVPT_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls OVPT_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv12
 
-ivregress 2sls PL5000_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls PL5000_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv13
 
-ivregress 2sls PO2SM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls PO2SM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 est store iv14
 
 *Exporto tabla a Latex
 esttab iv6 iv7 iv8 iv9 iv10 iv11 iv12 iv13 iv14 using "$output/EJ_4.b.tex", replace
 
-* 5) Testear exogenenidad del instrumento
+* 5) Testear exogenenidad del instrumento (test de Hausman)
 *==============================================================================*
 
-ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
-predict resid, residual
+*Estimaciones por IV
+ivregress 2sls IM_2015 (cartel2010=chinese_pres) dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado
+est store ivh
 
-reg resid dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado chinese_pres, cluster(id_estado)
+*Estimaciones por OLS
+reg IM_2015 cartel2010 dalemanes suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado
+est store olsh
 
-ereturn list
-display chi2tail(1,e(N)*e(r2))
+*Test de Hausman (bajo hipótesis nula IV es consitente)
+hausman ivh olsh
+ 
 
 * 6) Test de sobreidentificación
 *==============================================================================*
 
-ivregress 2sls IM_2015 (cartel2010=chinese_pres dalemanes) suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+ivregress 2sls IM_2015 (cartel2010=chinese_pres dalemanes) suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado i.id_estado, cluster(id_estado)
 predict resid1, residual
 
-reg resid1 suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado chinese_pres dalemanes, cluster(id_estado)
+reg resid1 suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado chinese_pres dalemanes i.id_estado, cluster(id_estado)
 
 test chinese_pres=dalemanes=0
 
@@ -167,3 +171,6 @@ ereturn list
 display chi2tail(1,2*r(F))
 
 ivreg2 IM_2015 (cartel2010=chinese_pres dalemanes) suitability TempMed_Anual PrecipAnual_med superficie_km pob1930cabec distancia_km distkmDF mindistcosta capestado, cluster(id_estado)
+
+*Exportar do-file a pdf
+translate "$main/programs/PS 4.do" "$output/PS 4 do-file.pdf", translator(txt2pdf) replace
