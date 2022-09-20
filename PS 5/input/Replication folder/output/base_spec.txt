@@ -1,0 +1,16 @@
+		(1)
+VARIABLES	LABELS	Log Expenditure
+		
+dfmfd	Female participation	0.000
+		(0.023)
+Constant	Constant	8.353***
+		(0.015)
+		
+Observations		1,652
+R-squared		0.000
+Village fixed effects		No
+Household fixed effects		No
+Year fixed effects		No
+Controls		No
+Standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		
