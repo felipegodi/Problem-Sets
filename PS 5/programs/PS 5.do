@@ -23,6 +23,11 @@ cd "$main"
 
 use "$input/microcredit.dta", clear
 
+*Transformamos los valores de la variable year
+
+replace year = 1991 if year == 0
+replace year = 1998 if year == 1
+
 * 1) Variable "Expenditure"
 
 gen ln_exptot = ln(exptot)
@@ -85,6 +90,8 @@ outreg2 using "$output/regs.tex", append ctitle(FE7) dec(4) label  addtext(Villa
 
 * 3.8) Household x year fixed effects
 gen hous_year = nh*year
+
+capture
 
 reghdfe ln_exptot dfmfd, absorb(hous_year)
 
