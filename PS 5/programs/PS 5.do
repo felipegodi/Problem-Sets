@@ -88,7 +88,7 @@ reghdfe ln_exptot dfmfd, absorb(vill_year)
 
 outreg2 using "$output/regs.tex", append ctitle(FE7) dec(4) label  addtext(Village fixed effects, No, Household fixed effects, No, Year fixed effects, No, Village x Year fixed effects, Yes, Household x Year fixed effects, No, Controls, No)
 
-* 3.8) Household x year fixed effects
+* 3.8) Household x year fixed effects (FE 8)
 gen hous_year = nh*year
 
 capture reghdfe ln_exptot dfmfd, absorb(hous_year)
