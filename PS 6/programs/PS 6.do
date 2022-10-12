@@ -272,7 +272,7 @@ bys state: gen treat = year if cdl>0 & cdl<1
 bys state: egen treated = max(treat)
 replace treated = 0 if treated == .
 
-csdid l_assault post, ivar(sid) time(year) gvar(treated) method(reg) notyet
+csdid l_assault post i.year [weight=popwt], ivar(sid) time(year) gvar(treated) method(reg) notyet
 
 * Pretrends test
 
@@ -282,9 +282,14 @@ estat pretrend
 
 estat simple
 
+estat event
+csdid_plot
 
-
-
+csdid_plot, group(2005) name(m1,replace) title("Group 2005")
+csdid_plot, group(2006) name(m2,replace) title("Group 2006")
+csdid_plot, group(2007) name(m3,replace) title("Group 2007")
+csdid_plot, group(2008) name(m4,replace) title("Group 2008")
+graph combine m1 m2 m3 m4, xcommon scale(0.8)
 
 
 
