@@ -291,7 +291,10 @@ csdid_plot, group(2007) name(m3,replace) title("Group 2007")
 csdid_plot, group(2008) name(m4,replace) title("Group 2008")
 graph combine m1 m2 m3 m4, xcommon scale(0.8)
 
+********************************************************************************
+* Ejercicio 3
 
+bacondecomp l_burglary post , stub(Bacon_) ddetail
 
 
 
