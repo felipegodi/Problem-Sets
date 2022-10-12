@@ -260,15 +260,27 @@ cd "$output"
 
 panelcombine, use(Tabla4_A.tex Tabla4_B.tex Tabla4_C.tex)  columncount(12) paneltitles("Burglary" "Robbery" "Aggravated Assault") save(Tabla4.tex)
 
+cd "$main"
+
 ********************************************************************************
 * Ejercicio 2
 
+*ssc install csdid
+*ssc install drdid
+*ssc install bacondecomp
+bys state: gen treat = year if cdl>0 & cdl<1
+bys state: egen treated = max(treat)
+replace treated = 0 if treated == .
 
+csdid l_assault post, ivar(sid) time(year) gvar(treated) method(reg) notyet
 
+* Pretrends test
 
+estat pretrend
 
+* Average ATT
 
-
+estat simple
 
 
 
