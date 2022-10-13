@@ -15,7 +15,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Configurar el entorno
 *==============================================================================*
 
-global main "C:\Users\felip\Documents\UdeSA\Maestría\Aplicada\Problem-Sets\PS 6"
+global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 6"
 global input "$main/input"
 global output "$main/output"
 
@@ -53,8 +53,6 @@ eststo clear
 
 * Solo state y year fixed effects
 eststo: xtreg l_burglary post i.year [aweight=popwt], fe vce(cluster sid)
-* Me gusta más este que el de arriba. El de arriba es el del Cunningham
-reghdfe l_burglary post [aweight=popwt], absorb(sid year)
 
 * 2
 
@@ -120,8 +118,6 @@ eststo clear
 
 * Solo state y year fixed effects
 eststo: xtreg l_robbery post i.year [aweight=popwt], fe vce(cluster sid)
-* Me gusta más este que el de arriba. El de arriba es el del Cunningham
-reghdfe l_robbery post [aweight=popwt], absorb(sid year)
 
 * 2
 
@@ -188,8 +184,6 @@ eststo clear
 
 * Solo state y year fixed effects
 eststo: xtreg l_assault post i.year [aweight=popwt], fe vce(cluster sid)
-* Me gusta más este que el de arriba. El de arriba es el del Cunningham
-reghdfe l_assault post [aweight=popwt], absorb(sid year)
 
 * 2
 
@@ -268,11 +262,12 @@ cd "$main"
 *ssc install csdid
 *ssc install drdid
 *ssc install bacondecomp
+
 bys state: gen treat = year if cdl>0 & cdl<1
 bys state: egen treated = max(treat)
 replace treated = 0 if treated == .
 
-csdid l_assault post i.year [weight=popwt], ivar(sid) time(year) gvar(treated) method(reg) notyet
+csdid l_assault post i.year i.sid [weight=popwt], ivar(sid) time(year) gvar(treated) method(reg) notyet
 
 * Pretrends test
 
@@ -285,11 +280,13 @@ estat simple
 estat event
 csdid_plot
 
-csdid_plot, group(2005) name(m1,replace) title("Group 2005")
-csdid_plot, group(2006) name(m2,replace) title("Group 2006")
-csdid_plot, group(2007) name(m3,replace) title("Group 2007")
-csdid_plot, group(2008) name(m4,replace) title("Group 2008")
+*csdid_plot, group(2005) name(m1,replace) title("Group 2005")
+csdid_plot, group(2006) name(m1,replace) title("Group 2006")
+csdid_plot, group(2007) name(m2,replace) title("Group 2007")
+csdid_plot, group(2008) name(m3,replace) title("Group 2008")
+csdid_plot, group(2009) name(m4,replace) title("Group 2009")
 graph combine m1 m2 m3 m4, xcommon scale(0.8)
+
 
 ********************************************************************************
 * Ejercicio 3
