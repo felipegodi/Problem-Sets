@@ -15,7 +15,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Configurar el entorno
 *==============================================================================*
 
-global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 6"
+global main "C:/Users/Franco/Documents/GitHub/Problem-Sets/PS 6"
 global input "$main/input"
 global output "$main/output"
 
@@ -23,9 +23,9 @@ cd "$main"
 
 use "$input/castle.dta", clear
 
-* net install cleanplots, from("https://tdmize.github.io/data/cleanplots")
+net install cleanplots, from("https://tdmize.github.io/data/cleanplots")
 set scheme cleanplots
-* ssc install bacondecomp
+ssc install bacondecomp
 
 * define global macros
 global crime1 jhcitizen_c jhpolice_c murder homicide robbery assault burglary larceny motor robbery_gun_r 
@@ -259,9 +259,9 @@ cd "$main"
 ********************************************************************************
 * Ejercicio 2
 
-*ssc install csdid
-*ssc install drdid
-*ssc install bacondecomp
+ssc install csdid
+ssc install drdid
+ssc install bacondecomp
 
 bys state: gen treat = year if cdl>0 & cdl<1
 bys state: egen treated = max(treat)
@@ -277,14 +277,20 @@ estat pretrend
 
 estat simple
 
+estpost estat simple
+
 estat event
 csdid_plot
+
+graph export "C:\Users\Franco\Documents\GitHub\Problem-Sets\PS 6\output\EventStudy.png", as(png) name("Graph")
 
 csdid_plot, group(2006) name(m1,replace) title("Group 2006")
 csdid_plot, group(2007) name(m2,replace) title("Group 2007")
 csdid_plot, group(2008) name(m3,replace) title("Group 2008")
 csdid_plot, group(2009) name(m4,replace) title("Group 2009")
 graph combine m1 m2 m3 m4, xcommon scale(0.8)
+
+graph export "C:\Users\Franco\Documents\GitHub\Problem-Sets\PS 6\output\4Years_ES.png", as(png) name("Graph")
 
 
 ********************************************************************************
