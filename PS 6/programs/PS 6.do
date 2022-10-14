@@ -15,7 +15,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Configurar el entorno
 *==============================================================================*
 
-global main "C:/Users/Franco/Documents/GitHub/Problem-Sets/PS 6"
+global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 6"
 global input "$main/input"
 global output "$main/output"
 
@@ -277,12 +277,10 @@ estat pretrend
 
 estat simple
 
-estpost estat simple
-
 estat event
 csdid_plot
 
-graph export "C:\Users\Franco\Documents\GitHub\Problem-Sets\PS 6\output\EventStudy.png", as(png) name("Graph")
+graph export "C:\Users\Milton\Documents\UDESA\Economía Aplicada\Problem-Sets\PS 6\output\EventStudy.png", as(png) name("Graph")
 
 csdid_plot, group(2006) name(m1,replace) title("Group 2006")
 csdid_plot, group(2007) name(m2,replace) title("Group 2007")
@@ -290,7 +288,7 @@ csdid_plot, group(2008) name(m3,replace) title("Group 2008")
 csdid_plot, group(2009) name(m4,replace) title("Group 2009")
 graph combine m1 m2 m3 m4, xcommon scale(0.8)
 
-graph export "C:\Users\Franco\Documents\GitHub\Problem-Sets\PS 6\output\4Years_ES.png", as(png) name("Graph")
+graph export "C:\Users\Milton\Documents\UDESA\Economía Aplicada\Problem-Sets\PS 6\output\4Years_ES.png", as(png) name("Graph")
 
 
 ********************************************************************************
@@ -298,7 +296,7 @@ graph export "C:\Users\Franco\Documents\GitHub\Problem-Sets\PS 6\output\4Years_E
 
 bacondecomp l_burglary post , stub(Bacon_) ddetail
 
-
+graph export "C:\Users\Milton\Documents\UDESA\Economía Aplicada\Problem-Sets\PS 6\output\Bacon.png", as(png) name("Graph"), replace
 
 
 
