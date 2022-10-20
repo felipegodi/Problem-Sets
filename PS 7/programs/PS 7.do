@@ -15,7 +15,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Configurar el entorno
 *==============================================================================*
 
-global main "C:\Users\felip\Documents\UdeSA\Maestría\Aplicada\Problem-Sets\PS 7"
+global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 7"
 global input "$main/input"
 global output "$main/output"
 
@@ -74,6 +74,10 @@ addnotes("standard errors in parenthesis, clustered p-value in braces, Wild-boot
 
 * ssc install boottest
 
+********************************************************************************
+*Exportar a pdf
+
+translate "$main/programs/PS 7.do" "$output/PS 7 do-file.pdf", translator(txt2pdf) replace
 
 
 
