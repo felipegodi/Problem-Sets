@@ -68,7 +68,7 @@ mat colnames p3= treated
 eststo ar: xtreg zakaibag treated semarab semrel, fe i(group) cluster(group)
 estadd matrix p3
 
-esttab white clust boo ar using "$output/Regresiones.txt", replace label keep(treated, relax) ///
+esttab white clust boo ar using "$output/Regresiones.tex", replace label keep(treated, relax) ///
 cells(b(fmt(3) pvalue(p2) star) se(par fmt(2)) p(par({ })) p2(par([ ])) p3(par(< >))) ///
 addnotes("standard errors in parenthesis, clustered p-value in braces, Wild-bootstrap based p-values in brackets, ART-based p-values in arrows")
 
