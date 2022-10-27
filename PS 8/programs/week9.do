@@ -21,7 +21,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Set up environment
 *==============================================================================*
 
-global main "G:\Mi unidad\UdeSA\week_9_synth"
+global main "C:\Users\Franco\Documents\GitHub\Problem-Sets\PS 8"
 global output "$main/outputs"
 global input "$main/input"
 
