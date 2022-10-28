@@ -13,5 +13,5 @@
 4️⃣ PS4: Variables instrumentales	    
 5️⃣ PS5: Fixed effects   
 6️⃣ PS6: Difference-in-differences
-6️⃣ PS7: Clusters inference
-6️⃣ PS8: Synthetic Control
+7️⃣ PS7: Clusters inference
+8️⃣ PS8: Synthetic Control
