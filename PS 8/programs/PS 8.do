@@ -266,3 +266,9 @@ merge 1:1 _Co_Number _time using "$input/pt2/resout`i'.dta", nogen
 
 
 twoway (line _Y_gap_1 _time, lcolor(gray)) (line _Y_gap_2 _time, lcolor(gray)) (line _Y_gap_3 _time, lcolor(gray)) (line _Y_gap_4 _time, lcolor(gray)) (line _Y_gap_5 _time, lcolor(gray)) (line _Y_gap_6 _time, lcolor(gray)) (line _Y_gap_7 _time, lcolor(gray)) (line _Y_gap_8 _time, lcolor(gray)) (line _Y_gap_10 _time, lcolor(gray)) (line _Y_gap_11 _time, lcolor(gray)) (line _Y_gap_12 _time, lcolor(gray)) (line gaps1 _time, lcolor(black) lwidth(thick)), xline(1999, lpattern(shortdash) lcolor(grey)) legend(order(12 "Sao Paulo" 2 "Control States (MSPE)")) xtitle("Year") ytitle("Gap in Homicide Rates") yline(0, lcolor(black))
+
+********************************************************************************
+*Exportar a pdf
+
+translate "$main/programs/PS 8.do" "$output/PS 8 do-file.pdf", translator(txt2pdf) replace
+
