@@ -1,5 +1,5 @@
 /*******************************************************************************
-                        Semana 8: Power calculations
+                        Semana 10: Power calculations
 
                           Universidad de San Andrés
                               Economía Aplicada
@@ -17,7 +17,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Set up environment
 *==============================================================================*
 
-global main "C:\Users\Franco\Documents\GitHub\Problem-Sets\PS 9"
+global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 9"
 global output "$main/output"
 global input "$main/input"
 
@@ -55,7 +55,7 @@ reg impuestos_pagados T, robust
 restore
 *==============================================================================*
 
-* Repito 500 veces y me fijo el % de veces que rechazo H0
+* Repetimos 500 veces y nos fijamos el % de veces que rechazo H0
 *==============================================================================*
 mat R = J(500,2,.) 
 forvalues x=1(1)500 {
@@ -86,7 +86,7 @@ sum reject
 restore
 *==============================================================================*
 
-* Repito la simulación pero para distintos tamaños de muestra y para distintos efectos
+* Repetimos la simulación pero para distintos tamaños de muestra y para distintos efectos
 *==============================================================================*
 local i=1
 mat resultados = J(50,4,.)
@@ -170,7 +170,7 @@ gen impuestos_pagados = 0.2*ganancias_estimadas + rnormal(0,5000) // este es el 
 drop if impuestos_pagados<0
 *==============================================================================*
 
-* Repito la simulación pero para distintos tamaños de muestra y para distintos efectos
+* Repetimos la simulación pero para distintos tamaños de muestra y para distintos efectos
 *==============================================================================*
 local i=1
 mat resultados = J(50,4,.)
@@ -254,7 +254,7 @@ gen impuestos_pagados = 0.2*ganancias_estimadas + rnormal(0,5000) // este es el 
 drop if impuestos_pagados<0
 *==============================================================================*
 
-* Repito la simulación pero para distintos tamaños de muestra y para distintos efectos
+* Repetimos la simulación pero para distintos tamaños de muestra y para distintos efectos
 * Asignando tratamiento al 20% de las obs.
 *==============================================================================*
 local i=1
@@ -339,7 +339,7 @@ gen impuestos_pagados = 0.2*ganancias_estimadas + rnormal(0,5000) // este es el 
 drop if impuestos_pagados<0
 *==============================================================================*
 
-* Repito la simulación pero para distintos tamaños de muestra y para distintos efectos
+* Repetimos la simulación pero para distintos tamaños de muestra y para distintos efectos
 * Asignando tratamiento al 80% de las obs.
 *==============================================================================*
 local i=1
@@ -410,3 +410,73 @@ legend(label(1 "1%") label(2 "2.5%") label(3 "5%") label(4 "7.5%") label(5 "10%"
 legend(rows(1) title("Effect")) xscale(titlegap(3)) yscale(titlegap(3)) 
 graph export "$main/output/Graph 4.png", replace
 *==============================================================================*
+
+*Generamos una muestra simulada con datos de pagos de impuestos de empresas
+*Agregamos datos de pagos de impuestos de empresas en 2019 a nuestra muestra simulada
+*==============================================================================*
+clear all
+set seed 123 // seteamos semilla para poder replicar los resultados
+set obs 15000
+gen ganancias_estimadas = rnormal(10000,2000)
+drop if ganancias_estimadas<0
+gen ganancias_estimadas_2019 = rnormal(10000,2000)
+drop if ganancias_estimadas<0
+
+gen impuestos_pagados = 0.2*ganancias_estimadas + ganancias_estimadas_2019 + rnormal(0,500) // este es el termino de error que hay que modificar en el 2. 
+drop if impuestos_pagados<0
+*==============================================================================*
+
+* Repetimos simulación de un efecto del 2.5% con 2000 obs
+*==============================================================================*
+preserve
+
+sample 2000, count // aleatoriamente me quedo con 2000 obs
+
+* Aleatoriamente asigno el tratamiento al 50% de las obs:
+gen temp = runiform()
+gen T=0
+replace T = 1 if temp<0.5
+
+* A los tratados les aumento el outcome un 2.5%
+replace impuestos_pagados = impuestos_pagados * (1+0.025) if T==1
+
+* Regreso el outcome en el tratamiento
+reg impuestos_pagados T ganancias_estimadas_2019, robust
+
+restore
+*==============================================================================*
+
+* Repetimos 500 veces y nos fijamos el % de veces que rechazo H0
+*==============================================================================*
+mat R = J(500,2,.) 
+forvalues x=1(1)500 {
+preserve
+
+sample 2000, count
+
+gen temp = runiform()
+gen T=0
+replace T = 1 if temp<0.5
+
+replace impuestos_pagados = impuestos_pagados * (1+0.025) if T==1
+
+reg impuestos_pagados T ganancias_estimadas_2019, robust
+
+mat R[`x',1]=_b[T]/_se[T]
+
+restore
+}
+
+preserve
+clear
+svmat R
+gen reject = 0
+replace reject = 1 if (R1>1.65)
+drop if reject==.
+sum reject
+restore
+*==============================================================================*
+
+*Exportamos a PDF
+*==============================================================================*
+translate "$main/programs/PS 9.do" "$output/PS 9 do-file.pdf", translator(txt2pdf) replace
