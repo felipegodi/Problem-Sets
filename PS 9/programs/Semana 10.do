@@ -17,7 +17,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Set up environment
 *==============================================================================*
 
-global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 9"
+global main "C:\Users\Franco\Documents\GitHub\Problem-Sets\PS 9"
 global output "$main/output"
 global input "$main/input"
 
@@ -415,14 +415,14 @@ graph export "$main/output/Graph 4.png", replace
 *Agregamos datos de pagos de impuestos de empresas en 2019 a nuestra muestra simulada
 *==============================================================================*
 clear all
-set seed 123 // seteamos semilla para poder replicar los resultados
+set seed 1235 // seteamos semilla para poder replicar los resultados
 set obs 15000
 gen ganancias_estimadas = rnormal(10000,2000)
 drop if ganancias_estimadas<0
 gen ganancias_estimadas_2019 = rnormal(10000,2000)
 drop if ganancias_estimadas<0
 
-gen impuestos_pagados = 0.2*ganancias_estimadas + ganancias_estimadas_2019 + rnormal(0,500) // este es el termino de error que hay que modificar en el 2. 
+gen impuestos_pagados = 0.2*ganancias_estimadas + rnormal(0,500) 
 drop if impuestos_pagados<0
 *==============================================================================*
 
