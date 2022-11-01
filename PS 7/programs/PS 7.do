@@ -15,7 +15,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Configurar el entorno
 *==============================================================================*
 
-global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 7"
+global main "C:\Users\felip\Documents\UdeSA\Maestría\Aplicada\Problem-Sets\PS 7"
 global input "$main/input"
 global output "$main/output"
 
@@ -46,7 +46,7 @@ replace group = 11 if pair == 19
 eststo clear
 
 * Robust
-eststo white: xtreg zakaibag treated semarab semrel, fe i(group) vce(robust)
+eststo white: reg zakaibag treated semarab semrel i.group, vce(robust)
 
 * Clusters
 eststo clust: xtreg zakaibag treated semarab semrel, fe i(group) cluster(group)
