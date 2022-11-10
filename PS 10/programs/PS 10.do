@@ -89,6 +89,17 @@ foreach var of global covs {
 	graph export "$output/falsification_`var'.png", replace
 }
 
+local num: list sizeof global(covs)
+mat def pvals = J(`num',1,.)
+local row = 1
+
+foreach var of global covs {
+    qui rdrobust `var' $x, c(0.5)
+    mat pvals[`row',1] =  e(pv_rb)
+    local row = `row'+1
+	}
+frmttable using "$output/pvals", statmat(pvals) replace tex
+
 *******************************************************************************/
 * 4) Run regression 
 *******************************************************************************/
