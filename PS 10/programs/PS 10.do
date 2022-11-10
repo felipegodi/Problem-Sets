@@ -1,0 +1,118 @@
+/*******************************************************************************
+                         Semana 11: Regression Discontinuity
+
+                          Universidad de San Andrés
+                              Economía Aplicada
+							       2022							           
+*******************************************************************************/
+*      Bronstein         García Vassallo            López             Riottini
+/*******************************************************************************
+Este archivo sigue la siguiente estructura:
+
+0) Set up environment
+
+1) Install packages
+
+2) Plot RD
+
+3) Falsification tests
+
+*******************************************************************************/
+* 0) Set up environment
+*==============================================================================*
+
+global main "C:\Users\felip\Documents\UdeSA\Maestría\Aplicada\Problem-Sets\PS 10"
+global output "$main/output"
+global input "$main/input"
+
+cd "$main"
+
+use "$input/data_elections.dta", clear
+
+*******************************************************************************/
+* 1) Install packages
+*******************************************************************************/
+
+net install rdrobust, from(https://raw.githubusercontent.com/rdpackages/rdrobust/master/stata) replace
+net install rdlocrand, from(https://raw.githubusercontent.com/rdpackages/rdlocrand/master/stata) replace
+net install rddensity, from(https://raw.githubusercontent.com/rdpackages/rddensity/master/stata) replace
+net install lpdensity, from(https://raw.githubusercontent.com/nppackages/lpdensity/master/stata) replace
+
+*******************************************************************************/
+* 2) Plot RD
+*******************************************************************************/
+
+gen demwon=0
+replace demwon=1 if vote_share_democrats>0.5
+
+global y lne
+global x vote_share_democrats
+global covs "unemplyd union urban veterans"
+
+rdplot $y $x, c(0.5) p(1) graph_options(graphregion(color(white)) ///
+							xtitle(Democrats vote share) ///
+							ytitle(Log FED expenditure) name(g$y, replace)) 
+							
+rdplot $y $x, c(0.5) p(2) graph_options(graphregion(color(white)) ///
+							xtitle(Democrats vote share) ///
+							ytitle(Log FED expenditure) name(g$y, replace)) 
+
+*******************************************************************************/
+* 3) Falsification tests 
+*******************************************************************************/
+
+* Density discontinuity test
+
+rddensity $x, plot c(0.5)
+graph rename $x
+
+* Placebo tests on pre-determined covariates
+
+foreach var of global covs {
+	rdrobust `var' $x, c(0.5)
+	qui rdplot `var' $x if abs($x)<=30, c(0.5) p(1) graph_options(graphregion(color(white)) ///
+													  xlabel(0.2(0.1)1) ///
+													  ytitle(`var') name(g`var', replace)) 
+}
+
+*******************************************************************************/
+* 4) Run regression 
+*******************************************************************************/
+
+rdrobust $y $x, masspoints(off) stdvars(on) c(0.5) p(1)
+
+rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1)
+
+*******************************************************************************/
+* 5) Change bandwidth
+*******************************************************************************/
+
+rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1) h(0.025)
+
+rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1) h(0.15)
+
+rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1) h(0.25)
+
+*******************************************************************************/
+* 6) Change cutoff
+*******************************************************************************/
+
+rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.4) p(1)
+
+rdplot $y $x, c(0.4) p(1) graph_options(graphregion(color(white)) ///
+							xtitle(Democrats vote share) ///
+							ytitle(Log FED expenditure) name(g$y, replace)) 
+
+rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.6) p(1)
+
+rdplot $y $x, c(0.6) p(1) graph_options(graphregion(color(white)) ///
+							xtitle(Democrats vote share) ///
+							ytitle(Log FED expenditure) name(g$y, replace)) 
+
+*******************************************************************************/
+* 7) Using local randomization with traingular kernel
+*******************************************************************************/
+
+rdwinselect $x $covs, wmin(0.05) wstep(0.01) nwindows(20) seed(444) plot graph_options(xtitle(Half window length) ytitle(Minimum p-value across all covariates) graphregion(color(white))) c(0.5) kernel(triangular)
+
+
