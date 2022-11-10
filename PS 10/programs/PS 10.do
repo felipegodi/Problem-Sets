@@ -115,4 +115,9 @@ rdplot $y $x, c(0.6) p(1) graph_options(graphregion(color(white)) ///
 
 rdwinselect $x $covs, wmin(0.05) wstep(0.01) nwindows(20) seed(444) plot graph_options(xtitle(Half window length) ytitle(Minimum p-value across all covariates) graphregion(color(white))) c(0.5) kernel(triangular)
 
+rdrandinf $y $x, wl(0.32) wr(0.68) reps(1000) seed(444) c(0.5)
+
+
+
+
 
