@@ -77,15 +77,16 @@ graph export "$output/polinomio2.png", replace
 * Density discontinuity test
 
 rddensity $x, plot c(0.5)
-graph rename $x
+graph export "$output/falsification1.png", replace
 
 * Placebo tests on pre-determined covariates
 
 foreach var of global covs {
 	rdrobust `var' $x, c(0.5)
-	qui rdplot `var' $x if abs($x)<=30, c(0.5) p(1) graph_options(graphregion(color(white)) ///
+	qui rdplot `var' $x, c(0.5) p(1) graph_options(graphregion(color(white)) ///
 													  xlabel(0.2(0.1)1) ///
 													  ytitle(`var') name(g`var', replace)) 
+	graph export "$output/falsification_`var'.png", replace
 }
 
 *******************************************************************************/
