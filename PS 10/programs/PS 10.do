@@ -17,6 +17,14 @@ Este archivo sigue la siguiente estructura:
 
 3) Falsification tests
 
+4) Run regression 
+
+5) Change bandwidth
+
+6) Change cutoff
+
+7) Using local randomization with triangular kernel
+
 *******************************************************************************/
 * 0) Set up environment
 *==============================================================================*
@@ -110,7 +118,7 @@ rdplot $y $x, c(0.6) p(1) graph_options(graphregion(color(white)) ///
 							ytitle(Log FED expenditure) name(g$y, replace)) 
 
 *******************************************************************************/
-* 7) Using local randomization with traingular kernel
+* 7) Using local randomization with triangular kernel
 *******************************************************************************/
 
 rdwinselect $x $covs, wmin(0.05) wstep(0.01) nwindows(20) seed(444) plot graph_options(xtitle(Half window length) ytitle(Minimum p-value across all covariates) graphregion(color(white))) c(0.5) kernel(triangular)
