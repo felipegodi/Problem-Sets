@@ -61,10 +61,15 @@ rdplot $y $x, c(0.5) p(1) graph_options(graphregion(color(white)) ///
 							xtitle(Democrats vote share) ///
 							ytitle(Log FED expenditure) name(g$y, replace)) 
 							
+graph export "$output/polinomio1.png", replace
+							
 rdplot $y $x, c(0.5) p(2) graph_options(graphregion(color(white)) ///
 							xtitle(Democrats vote share) ///
 							ytitle(Log FED expenditure) name(g$y, replace)) 
 
+graph export "$output/polinomio2.png", replace
+							
+							
 *******************************************************************************/
 * 3) Falsification tests 
 *******************************************************************************/
