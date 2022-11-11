@@ -103,46 +103,52 @@ frmttable using "$output/pvals", statmat(pvals) replace tex
 *******************************************************************************/
 * 4) Run regression 
 *******************************************************************************/
+est clear
 
-rdrobust $y $x, masspoints(off) stdvars(on) c(0.5) p(1)
+eststo rd1: rdrobust $y $x, masspoints(off) stdvars(on) c(0.5) p(1)
 
-rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1)
+eststo rd2: rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1)
+
+esttab rd1 rd2 using "$output/Regresiones_ej4.tex", replace label ///
+cells(b(fmt(3) star) se(par fmt(2)))
 
 *******************************************************************************/
 * 5) Change bandwidth
 *******************************************************************************/
 
-rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1) h(0.025)
+eststo rd3: rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1) h(0.025)
 
-rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1) h(0.15)
+eststo rd4: rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1) h(0.15)
 
-rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1) h(0.25)
+eststo rd5: rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.5) p(1) h(0.25)
+
+esttab rd3 rd4 rd5 using "$output/Regresiones_ej5.tex", replace label ///
+cells(b(fmt(3) star) se(par fmt(2)))
 
 *******************************************************************************/
 * 6) Change cutoff
 *******************************************************************************/
 
-rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.4) p(1)
+eststo rd6: rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.4) p(1)
 
 rdplot $y $x, c(0.4) p(1) graph_options(graphregion(color(white)) ///
 							xtitle(Democrats vote share) ///
 							ytitle(Log FED expenditure) name(g$y, replace)) 
 
-rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.6) p(1)
+eststo rd7: rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.6) p(1)
 
 rdplot $y $x, c(0.6) p(1) graph_options(graphregion(color(white)) ///
 							xtitle(Democrats vote share) ///
 							ytitle(Log FED expenditure) name(g$y, replace)) 
 
+esttab rd6 rd7 using "$output/Regresiones_ej6.tex", replace label ///
+cells(b(fmt(3) star) se(par fmt(2)))
+
+							
 *******************************************************************************/
 * 7) Using local randomization with triangular kernel
 *******************************************************************************/
 
 rdwinselect $x $covs, wmin(0.05) wstep(0.01) nwindows(20) seed(444) plot graph_options(xtitle(Half window length) ytitle(Minimum p-value across all covariates) graphregion(color(white))) c(0.5) kernel(triangular)
 
-rdrandinf $y $x, wl(0.32) wr(0.68) reps(1000) seed(444) c(0.5)
-
-
-
-
-
+rdrandinf $y $x, wl(0.32) wr(0.68) reps(1000) seed(444) c(0.5) kernel(triangular) p(1)
