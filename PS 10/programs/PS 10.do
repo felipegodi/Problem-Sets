@@ -29,7 +29,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Set up environment
 *==============================================================================*
 
-global main "C:\Users\felip\Documents\UdeSA\Maestría\Aplicada\Problem-Sets\PS 10"
+global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 10"
 global output "$main/output"
 global input "$main/input"
 
@@ -142,6 +142,10 @@ rdwinselect $x $covs, wmin(0.05) wstep(0.01) nwindows(20) seed(444) plot graph_o
 
 rdrandinf $y $x, wl(0.32) wr(0.68) reps(1000) seed(444) c(0.5)
 
+*******************************************************************************/
+*Export to PDF
+*******************************************************************************/
+translate "$main/programs/PS 10.do" "$output/PS 10 do-file.pdf", translator(txt2pdf) replace
 
 
 
