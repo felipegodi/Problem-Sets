@@ -3,7 +3,7 @@
 
                           Universidad de San Andrés
                               Economía Aplicada
-							       2022							           
+							       2022
 *******************************************************************************/
 *      Bronstein         García Vassallo            López             Riottini
 /*******************************************************************************
@@ -17,7 +17,7 @@ Este archivo sigue la siguiente estructura:
 
 3) Falsification tests
 
-4) Run regression 
+4) Run regression
 
 5) Change bandwidth
 
@@ -29,7 +29,7 @@ Este archivo sigue la siguiente estructura:
 * 0) Set up environment
 *==============================================================================*
 
-global main "C:\Users\felip\Documents\UdeSA\Maestría\Aplicada\Problem-Sets\PS 10"
+global main "C:/Users/Milton/Documents/UDESA/Economía Aplicada/Problem-Sets/PS 10"
 global output "$main/output"
 global input "$main/input"
 
@@ -59,19 +59,19 @@ global covs "unemplyd union urban veterans"
 
 rdplot $y $x, c(0.5) p(1) graph_options(graphregion(color(white)) ///
 							xtitle(Democrats vote share) ///
-							ytitle(Log FED expenditure) name(g$y, replace)) 
-							
+							ytitle(Log FED expenditure) name(g$y, replace))
+
 graph export "$output/polinomio1.png", replace
-							
+
 rdplot $y $x, c(0.5) p(2) graph_options(graphregion(color(white)) ///
 							xtitle(Democrats vote share) ///
-							ytitle(Log FED expenditure) name(g$y, replace)) 
+							ytitle(Log FED expenditure) name(g$y, replace))
 
 graph export "$output/polinomio2.png", replace
-							
-							
+
+
 *******************************************************************************/
-* 3) Falsification tests 
+* 3) Falsification tests
 *******************************************************************************/
 
 * Density discontinuity test
@@ -85,7 +85,7 @@ foreach var of global covs {
 	rdrobust `var' $x, c(0.5)
 	qui rdplot `var' $x, c(0.5) p(1) graph_options(graphregion(color(white)) ///
 													  xlabel(0.2(0.1)1) ///
-													  ytitle(`var') name(g`var', replace)) 
+													  ytitle(`var') name(g`var', replace))
 	graph export "$output/falsification_`var'.png", replace
 }
 
@@ -101,7 +101,7 @@ foreach var of global covs {
 frmttable using "$output/pvals", statmat(pvals) replace tex
 
 *******************************************************************************/
-* 4) Run regression 
+* 4) Run regression
 *******************************************************************************/
 est clear
 
@@ -133,18 +133,18 @@ eststo rd6: rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.4) p(1)
 
 rdplot $y $x, c(0.4) p(1) graph_options(graphregion(color(white)) ///
 							xtitle(Democrats vote share) ///
-							ytitle(Log FED expenditure) name(g$y, replace)) 
+							ytitle(Log FED expenditure) name(g$y, replace))
 
 eststo rd7: rdrobust $y $x, covs($covs) masspoints(off) stdvars(on) c(0.6) p(1)
 
 rdplot $y $x, c(0.6) p(1) graph_options(graphregion(color(white)) ///
 							xtitle(Democrats vote share) ///
-							ytitle(Log FED expenditure) name(g$y, replace)) 
+							ytitle(Log FED expenditure) name(g$y, replace))
 
 esttab rd6 rd7 using "$output/Regresiones_ej6.tex", replace label ///
 cells(b(fmt(3) star) se(par fmt(2)))
 
-							
+
 *******************************************************************************/
 * 7) Using local randomization with triangular kernel
 *******************************************************************************/
@@ -152,3 +152,8 @@ cells(b(fmt(3) star) se(par fmt(2)))
 rdwinselect $x $covs, wmin(0.05) wstep(0.01) nwindows(20) seed(444) plot graph_options(xtitle(Half window length) ytitle(Minimum p-value across all covariates) graphregion(color(white))) c(0.5) kernel(triangular)
 
 rdrandinf $y $x, wl(0.32) wr(0.68) reps(1000) seed(444) c(0.5) kernel(triangular) p(1)
+
+*******************************************************************************/
+*Export to PDF
+*******************************************************************************/
+translate "$main/programs/PS 10.do" "$output/PS 10 do-file.pdf", translator(txt2pdf) replace
