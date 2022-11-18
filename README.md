@@ -22,3 +22,9 @@
 7️⃣ PS7: Clusters inference
 
 8️⃣ PS8: Synthetic Control
+
+9️⃣ PS9: Power calculations
+
+🔟 PS10: Regression Discontinuity
+
+1️⃣1️⃣ PS11: Matching
